@@ -1,0 +1,11 @@
+GET http://localhost:3000/logs
+
+# POST http://localhost:3000/exercises
+# content-type: application/json
+
+# {
+#     "name": "Squat Jump",
+#     "categoryId": "321",
+#     "bodyPartId": "123",
+#     "notes": "This one is really cool"
+# }
