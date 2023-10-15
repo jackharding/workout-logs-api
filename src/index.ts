@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { Exercise } from './types';
-import { queryDb } from './database.js';
+import { Exercise } from './types.js';
+import * as db from './database.js';
 // import { client } from './database';
 
 const app = express();
@@ -27,25 +27,29 @@ const exercises: Array<Exercise> = [
 ];
 
 app.get('/logs', (req, res) => {
-  queryDb();
   res.json(exercises);
 });
 
-app.post('/exercises', (req, res) => {
+app.get('/exercise-categories', async (req, res) => {
+  const results = await db.query('SELECT * from exercise_category');
+  res.json(results.rows);
+});
+
+app.get('/exercises', async (req, res) => {
+  const results = await db.query('SELECT * from exercise');
+  res.json(results.rows);
+});
+
+app.post('/exercises', async (req, res) => {
   const { name, categoryId, bodyPartId, icon, notes, video } = req.body as Exercise;
 
-  exercises.push({
-    id: '123123',
-    custom: false,
-    name,
-    categoryId,
-    bodyPartId,
-    icon,
-    notes,
-    video,
-  });
+  try {
+    await db.query('INSERT INTO exercise(name, body_part_id) VALUES($1, $2)', [name, bodyPartId]);
+  } catch (err) {
+    console.log(err);
+  }
 
-  res.json(exercises);
+  res.json(null);
 });
 
 app.listen(3000);

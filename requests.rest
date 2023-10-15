@@ -1,11 +1,9 @@
-GET http://localhost:3000/logs
+GET http://localhost:3000/exercises
 
 # POST http://localhost:3000/exercises
 # content-type: application/json
 
 # {
 #     "name": "Squat Jump",
-#     "categoryId": "321",
-#     "bodyPartId": "123",
-#     "notes": "This one is really cool"
+#     "bodyPartId": 123123123123
 # }

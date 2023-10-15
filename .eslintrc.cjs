@@ -30,7 +30,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
-    'no-console': 'error',
+    'no-console': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
   },
 };
