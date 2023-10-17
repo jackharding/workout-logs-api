@@ -31,6 +31,7 @@ export type Rep = {
   weight?: number;
   weightUnit: 'kg' | 'lbs';
   reps?: number;
+  rpe?: number;
   notes?: string;
   complete: boolean;
   type: 'Normal' | 'Drop set' | 'Failure' | 'Super set';
@@ -45,6 +46,20 @@ export type Log = {
   restDurationMs?: number;
   exercises: Array<{
     exerciseId: Exercise['id'];
-    reps: Array<Rep>;
+    sets: Array<Set>;
+    notes?: string;
   }>;
+};
+
+type Set = {
+  id: number;
+  logExerciseId: number;
+  exerciseId: number;
+  weight?: number;
+  weightUnit: 'kg' | 'lbs';
+  reps?: number;
+  rpe?: number;
+  notes?: string;
+  complete: boolean;
+  type: 'Normal' | 'Drop set' | 'Failure' | 'Super set';
 };

@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { Exercise } from './types.js';
+import { Exercise, Log } from './types.js';
 import * as db from './database.js';
 // import { client } from './database';
 
@@ -26,10 +26,6 @@ const exercises: Array<Exercise> = [
   },
 ];
 
-app.get('/logs', (req, res) => {
-  res.json(exercises);
-});
-
 app.get('/exercise-categories', async (req, res) => {
   const results = await db.query('SELECT * from exercise_category');
   res.json(results.rows);
@@ -40,11 +36,35 @@ app.get('/exercises', async (req, res) => {
   res.json(results.rows);
 });
 
+app.get('/logs', async (req, res) => {
+  const results = await db.query('SELECT * from log');
+  res.json(results.rows);
+});
+
+/**
+ * TODO:
+ * - Finish this function
+ * - Utilise TIMESTAMP and enum type in database
+ */
+app.post('/logs', async (req, res) => {
+  const { name, dateStart, dateEnd, notes, exercises } = req.body as Log;
+  const results = await db.query(
+    `
+      INSERT INTO log(name, date_start, date_end, notes) VALUES($1, $2, $3, $4);
+    `,
+    [name, dateStart, dateEnd || new Date().toISOString(), notes]
+  );
+  res.json(results.rows);
+});
+
 app.post('/exercises', async (req, res) => {
   const { name, categoryId, bodyPartId, icon, notes, video } = req.body as Exercise;
 
   try {
-    await db.query('INSERT INTO exercise(name, body_part_id) VALUES($1, $2)', [name, bodyPartId]);
+    await db.query('INSERT INTO exercise(name, body_part_id) VALUES($1, $2)', [
+      name,
+      bodyPartId,
+    ]);
   } catch (err) {
     console.log(err);
   }
