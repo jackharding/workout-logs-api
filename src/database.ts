@@ -10,7 +10,10 @@ const pool = new pg.Pool({
   database: process.env.DATABASE_NAME,
 });
 
-export const query = async (queryText: string, values?: any[]): Promise<QueryResult> => {
+export const query = async (
+  queryText: string,
+  values?: any[]
+): Promise<QueryResult> => {
   const start = Date.now();
 
   const res = await pool.query(queryText, values);

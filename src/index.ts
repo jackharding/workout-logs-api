@@ -45,6 +45,7 @@ app.get('/logs', async (req, res) => {
  * TODO:
  * - Finish this function
  * - Utilise TIMESTAMP and enum type in database
+ * - use DEFAULT for date_end
  */
 app.post('/logs', async (req, res) => {
   const { name, dateStart, dateEnd, notes, exercises } = req.body as Log;
@@ -58,7 +59,8 @@ app.post('/logs', async (req, res) => {
 });
 
 app.post('/exercises', async (req, res) => {
-  const { name, categoryId, bodyPartId, icon, notes, video } = req.body as Exercise;
+  const { name, categoryId, bodyPartId, icon, notes, video } =
+    req.body as Exercise;
 
   try {
     await db.query('INSERT INTO exercise(name, body_part_id) VALUES($1, $2)', [
