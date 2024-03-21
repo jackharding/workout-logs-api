@@ -51,10 +51,25 @@ app.post('/logs', async (req, res) => {
   const { name, dateStart, dateEnd, notes, exercises } = req.body as Log;
   const results = await db.query(
     `
-      INSERT INTO log(name, date_start, date_end, notes) VALUES($1, $2, $3, $4);
+      INSERT INTO log(name, date_start, date_end, notes) VALUES($1, $2, $3, $4) RETURNING id;
     `,
     [name, dateStart, dateEnd || new Date().toISOString(), notes]
   );
+
+  const logId = results.rows[0].id;
+
+  // TODO: most definitely not the way to do this
+  const resultss = await db.query(
+    exercises.reduce(
+      (query, current) => `
+      ${query}
+      INSERT INTO log_exercise(exercise_id, log_id, notes) VALUES(${current.exerciseId}, ${logId}, ${current.notes});
+    `,
+      ''
+    ),
+    []
+  );
+
   res.json(results.rows);
 });
 
@@ -63,10 +78,10 @@ app.post('/exercises', async (req, res) => {
     req.body as Exercise;
 
   try {
-    await db.query('INSERT INTO exercise(name, body_part_id) VALUES($1, $2)', [
-      name,
-      bodyPartId,
-    ]);
+    await db.query(
+      'INSERT INTO exercise(name, body_part_id, category_id, icon, notes, video) VALUES($1, $2, $3, $4, $5, $6)',
+      [name, bodyPartId, categoryId, icon, notes, video]
+    );
   } catch (err) {
     console.log(err);
   }
