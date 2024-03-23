@@ -12,16 +12,16 @@ POST http://localhost:3000/logs
 content-type: application/json
 
 {
-    "name": "Sweaty one",
-    "dateStart": "2024-02-20T11:56:04.164Z",
+    "name": "Fight training",
+    "dateStart": "2024-02-22T19:01:04.164Z",
     "exercises": [
         {
-            "exerciseId": 1,
+            "exerciseId": 2,
             "sets": [],
-            "notes": "CBA"
+            "notes": "Hard one"
         },
         {
-            "exerciseId": 2,
+            "exerciseId": 4,
             "sets": []
         }
     ]

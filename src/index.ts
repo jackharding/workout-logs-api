@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { Exercise, Log } from './types.js';
 import * as db from './database.js';
+import { buildLogExercisesQuery } from './utils/queryBuilders.js';
 // import { client } from './database';
 
 const app = express();
@@ -49,26 +50,26 @@ app.get('/logs', async (req, res) => {
  */
 app.post('/logs', async (req, res) => {
   const { name, dateStart, dateEnd, notes, exercises } = req.body as Log;
-  const results = await db.query(
-    `
-      INSERT INTO log(name, date_start, date_end, notes) VALUES($1, $2, $3, $4) RETURNING id;
-    `,
-    [name, dateStart, dateEnd || new Date().toISOString(), notes]
-  );
 
-  const logId = results.rows[0].id;
+  const newLogAlias = 'new_log';
 
-  // TODO: most definitely not the way to do this
-  const resultss = await db.query(
-    exercises.reduce(
-      (query, current) => `
-      ${query}
-      INSERT INTO log_exercise(exercise_id, log_id, notes) VALUES(${current.exerciseId}, ${logId}, ${current.notes});
-    `,
-      ''
-    ),
-    []
-  );
+  const query = `
+  WITH ${newLogAlias} AS (
+    INSERT INTO log(name, date_start, date_end, notes) VALUES($1, $2, $3, $4) RETURNING id
+  )
+  ${buildLogExercisesQuery(newLogAlias, exercises)};
+`;
+
+  console.log(query);
+
+  const results = await db.query(query, [name, dateStart, dateEnd, notes]);
+
+  // const logId = results.rows[0].id;
+
+  // const logExercisesQuery = buildLogExercisesQuery(logId, exercises);
+
+  // // TODO: most definitely not the way to do this
+  // const resultss = await db.query(logExercisesQuery, []);
 
   res.json(results.rows);
 });
