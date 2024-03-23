@@ -8,22 +8,39 @@
 #     "name": "Sweaty one",
 #     "dateStart": "2024-02-20T11:56:04.164Z" 
 # }
-
-POST http://localhost:3000/logs
+POST http://localhost:3000/auth/register
 content-type: application/json
 
 {
-    "name": "Fight training",
-    "dateStart": "2024-02-22T19:01:04.164Z",
-    "exercises": [
-        {
-            "exerciseId": 2,
-            "sets": [],
-            "notes": "Hard one"
-        },
-        {
-            "exerciseId": 4,
-            "sets": []
-        }
-    ]
+    "firstName": "J",
+    "lastName": "H",
+    "email": "jack@asd.com",
+    "password": "passy!withS-ome-duerp-land21"
 }
+
+# POST http://localhost:3000/login/password
+# content-type: application/json
+
+# {
+#     "username": "fuck",
+#     "password": "fuck"
+# }
+
+# POST http://localhost:3000/logs
+# content-type: application/json
+
+# {
+#     "name": "Fight training",
+#     "dateStart": "2024-02-22T19:01:04.164Z",
+#     "exercises": [
+#         {
+#             "exerciseId": 2,
+#             "sets": [],
+#             "notes": "Hard one"
+#         },
+#         {
+#             "exerciseId": 4,
+#             "sets": []
+#         }
+#     ]
+# }
