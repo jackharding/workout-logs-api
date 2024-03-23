@@ -9,7 +9,8 @@
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .js,.ts",
-    "prettier": "prettier --write src/**/*.ts"
+    "prettier": "prettier --write src/**/*.ts",
+    "codegen": "kysely-codegen"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
     "body-parser": "1.20.2",
     "dotenv": "16.3.1",
     "express": "4.18.2",
+    "kysely": "0.27.3",
     "nodemon": "3.0.1",
     "pg": "8.11.3"
   },
@@ -30,6 +32,7 @@
     "eslint": "8.51.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-prettier": "5.0.1",
+    "kysely-codegen": "0.14.1",
     "prettier": "3.0.3",
     "typescript": "4.9.5"
   }

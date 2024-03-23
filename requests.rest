@@ -1,4 +1,5 @@
-# GET http://localhost:3000/logs
+
+# GET http://localhost:3000/exercise-categories
 
 # POST http://localhost:3000/logs
 # content-type: application/json
