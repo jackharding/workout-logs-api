@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { Exercise, Log } from './types.js';
 import { db } from './database.js';
-import { buildLogExercisesQuery } from './utils/queryBuilders.js';
 // import { client } from './database';
 
 const app = express();
